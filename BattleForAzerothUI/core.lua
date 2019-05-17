@@ -242,10 +242,12 @@ for i = 0, 3 do -- for loop, hides MainMenuXPBarTexture (0-3)
 	_G["MainMenuXPBarTexture" .. i]:Hide()
 end
 
--- ExhaustionTick:SetFrameStrata("MEDIUM")
+MainMenuExpBar:SetFrameStrata("MEDIUM")
+ExhaustionTick:SetFrameStrata("HIGH")
 
 MainMenuBarExpText:ClearAllPoints()
 MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, 0)
+MainMenuBarOverlayFrame:SetFrameStrata("HIGH") -- changes xp bar text strata
 
 ---------------==≡≡[ MICRO MENU MOVEMENT, POSITIONING AND SIZING ]≡≡==---------------
 
@@ -438,6 +440,9 @@ local function Update_ActionBars()
 	else
 		ActivateShortBar()
 	end
+
+	-- Fix to show XP bar on load
+	MainMenuBar_UpdateExperienceBars()
 end
 
 MultiBarBottomLeft:HookScript("OnShow", Update_ActionBars)
