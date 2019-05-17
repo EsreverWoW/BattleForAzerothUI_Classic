@@ -262,7 +262,7 @@ local function MoveMicroButtonsToBottomRight()
 		-- button:SetSize(28, 58)
 
 		if i == 1 then
-			button:SetPoint("BOTTOMRIGHT", UIParent, -200, 4)
+			button:SetPoint("BOTTOMRIGHT", UIParent, -198, 4)
 		elseif i == 4 and UnitLevel("player") < SHOW_SPEC_LEVEL then
 			button:SetPoint("BOTTOMLEFT", previousButton, "BOTTOMRIGHT", 0, 0)
 		else
@@ -327,7 +327,7 @@ local function Initial_ActionBarPositioning()
 		-- MultiBarLeftButton1:SetPoint("TOPRIGHT", MultiBarLeft, 41, 11)
 
 		-- reposition bags
-		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -7, 47)
+		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -5, 47)
 
 		-- reposition pet actionbuttons
 		SlidingActionBarTexture0:SetPoint("TOPLEFT", PetActionBarFrame, 1, -5) -- pet bar texture (displayed when bottom left bar is hidden)
