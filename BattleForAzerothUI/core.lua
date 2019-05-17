@@ -374,7 +374,7 @@ local function ActivateLongBar()
 
 		-- xp bar background (the one I made)
 		XPBarBackground:SetSize(798, 10)
-		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -111, -11)
+		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -111, -10)
 
 		if ExhaustionTick:IsShown() then
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
@@ -412,7 +412,7 @@ local function ActivateShortBar()
 
 		-- xp bar background (the one I made)
 		XPBarBackground:SetSize(542, 10)
-		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -237, -11)
+		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -237, -10)
 
 		if ExhaustionTick:IsShown() then
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
@@ -479,6 +479,34 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_REGEN_ENABLED")
 f:SetScript("OnEvent", PlayerLeftCombat)
+
+--------------------------------==≡≡[ BAG SPACE ]≡≡==--------------------------------
+
+local BagSpaceDisplay = CreateFrame("Frame", "BagSpaceDisplay", MainMenuBarBackpackButton)
+
+BagSpaceDisplay:ClearAllPoints()
+BagSpaceDisplay:SetPoint("BOTTOM", MainMenuBarBackpackButton, 0, -8)
+BagSpaceDisplay:SetSize(MainMenuBarBackpackButton:GetWidth(), MainMenuBarBackpackButton:GetHeight())
+
+BagSpaceDisplay.text = BagSpaceDisplay:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+BagSpaceDisplay.text:SetAllPoints(BagSpaceDisplay)
+
+local function UpdateBagSpace()
+	local totalFree, freeSlots, bagFamily = 0
+	for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		freeSlots, bagFamily = GetContainerNumFreeSlots(i)
+		if bagFamily == 0 then
+			totalFree = totalFree + freeSlots
+		end
+	end
+
+	BagSpaceDisplay.text:SetText(string.format("(%s)", totalFree))
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_LOGIN")
+f:RegisterEvent("BAG_UPDATE")
+f:SetScript("OnEvent", UpdateBagSpace)
 
 ----------------------------==≡≡[ BLIZZARD TEXTURES ]≡≡==----------------------------
 
