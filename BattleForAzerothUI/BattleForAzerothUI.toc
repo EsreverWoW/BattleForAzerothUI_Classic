@@ -1,4 +1,4 @@
-## Interface: 11300
+## Interface: 11302
 ## Author: Sèbastían, Es (EsreverWoW)
 ## Version: 1.10
 ## Title: Battle for Azeroth |cff69ccf0UI
