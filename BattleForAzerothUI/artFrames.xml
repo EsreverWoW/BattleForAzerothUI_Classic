@@ -1,0 +1,59 @@
+<Ui>
+    <Frame name="ActionBarArtSmall" parent="MainMenuBar">
+        <Size x="1024" y="128" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="-237" y="-11" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="interface/addons/BattleForAzerothUI/art/ActionBarArtSmall" />
+            </Layer>
+        </Layers>
+    </Frame>
+    <!-- BREAKER -->
+    <Frame name="ActionBarArt" parent="MainMenuBar">
+        <Size x="1024" y="128" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="-111" y="-11" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="interface/addons/BattleForAzerothUI/art/ActionBarArtLarge" />
+            </Layer>
+        </Layers>
+    </Frame>
+    <!-- BREAKER -->
+    <Frame name="XPBarBackground" parent="MainMenuBar" frameStrata="LOW">
+        <Size x="798" y="10" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="-111" y="-11" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="Interface/ChatFrame/ChatFrameBackground" setAllPoints="true">
+                    <Color r="0" g="0" b="0" a=".75" />
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+    <!-- BREAKER -->
+    <Frame name="MicroMenuArt" parent="CharacterMicroButton" frameStrata="BACKGROUND">
+        <Size x="512" y="128" />
+        <Anchors>
+            <Anchor point="BOTTOM">
+                <Offset x="0" y="-4" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture" file="interface/addons/BattleForAzerothUI/art/MicroMenuArt" />
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

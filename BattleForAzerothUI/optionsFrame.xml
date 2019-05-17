@@ -1,0 +1,108 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+  <Frame enableKeyboard="true" enableMouse="true" hidden="true" movable="true" name="BFAOptionsFrame" parent="UIParent">
+    <Size>
+      <AbsDimension x="450" y="510"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+    <Scripts>
+      <OnLoad>
+        --below allows frame to be dragable on left click
+        self:RegisterForDrag("LeftButton")
+        self:SetScript("OnDragStart",BFAOptionsFrame.StartMoving)
+        self:SetScript("OnDragStop",BFAOptionsFrame.StopMovingOrSizing)
+      </OnLoad>
+    </Scripts>
+    <TitleRegion setAllPoints="true"/>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset bottom="11" left="11" right="12" top="10"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture file="Interface\DialogFrame\UI-DialogBox-Header" name="$parentHeader">
+          <Size>
+            <AbsDimension x="300" y="68"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="12"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <FontString inherits="GameFontNormal" name="$parentHeaderText" text="Battle for Azeroth">
+          <Anchors>
+            <Anchor point="TOP" relativeTo="$parentHeader">
+              <Offset>
+                <AbsDimension x="0" y="-15"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Button inherits="UIPanelButtonTemplate" name="$parentClose" text="CLOSE">
+        <Size>
+          <AbsDimension x="96" y="22"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-16" y="14"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>self:GetParent():Hide()
+            PlaySound(624) --GAMEGENERICBUTTONPRESS
+          </OnClick>
+        </Scripts>
+      </Button>
+      <Frame name="$parentPanelContainer">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
+            <Offset>
+              <AbsDimension x="22" y="-40"/>
+            </Offset>
+          </Anchor>
+          <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent">
+            <Offset>
+              <AbsDimension x="22" y="50"/>
+            </Offset>
+          </Anchor>
+          <Anchor point="RIGHT">
+            <Offset>
+              <AbsDimension x="-22" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="16"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset bottom="5" left="5" right="5" top="5"/>
+          </BackgroundInsets>
+        </Backdrop>
+        <Scripts>
+          <OnLoad>self:SetBackdropBorderColor(.6,.6,.6,1)
+          </OnLoad>
+        </Scripts>
+      </Frame>
+    </Frames>
+  </Frame>
+</Ui>

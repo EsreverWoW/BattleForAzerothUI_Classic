@@ -1,0 +1,394 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <Frame name="InnerPanel" parent="BFAOptionsFramePanelContainer">
+        <Anchors>
+            <Anchor point="TOPLEFT">
+                <Offset x="16" y="-16" />
+            </Anchor>
+            <Anchor point="BOTTOMRIGHT">
+                <Offset x="-16" y="16" />
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer>
+                <FontString inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP" name="$parentTitle" text="Visual Options">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" />
+                    </Anchors>
+                </FontString>
+                <!-- BREAKER -->
+                <FontString inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP" maxLines="2" name="$parentSubText" nonspacewrap="true" text="These options allow you to toggle specific visuals within your UI.">
+                    <Size>
+                        <AbsDimension y="32" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle">
+                            <Offset>
+                                <AbsDimension y="-8" />
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <!-- BREAKER -->
+            <Layer>
+                <FontString inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP" name="$parentKeybindVisibilityTitle" nonspacewrap="true" text="Keybind Text Visibility">
+                    <Size>
+                        <AbsDimension y="32" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentSubText">
+                            <Offset>
+                                <AbsDimension y="-80" />
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <!-- BREAKER -->
+            <Layer>
+                <FontString inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP" maxLines="2" name="$parentNotes" nonspacewrap="true" text="|cff606060Tip: Toggling |cff7b7b7b'Bottom Right Bar' |cff606060in the |cff7b7b7b'Blizzard ActionBar Settings' |cff606060dramatically changes your UI's look." spacing="1">
+                    <Size>
+                        <AbsDimension y="32" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentKeybindVisibilityTitle">
+                            <Offset>
+                                <AbsDimension y="-172" />
+                            </Offset>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <!-- BREAKER -->
+            <CheckButton name="$parentPixelPerfect" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-1" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelPixelPerfect:GetName() .. "Text"):SetText("Pixel Perfect Mode |cff606060(requires reload)")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.PixelPerfect == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        if self:GetChecked()==true then
+                            BFAUI_SavedVars.Options.PixelPerfect = true
+                        else
+                            BFAUI_SavedVars.Options.PixelPerfect = false
+                        end
+                        StaticPopup_Show ("ReloadUI_Popup")
+
+                        --[[
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            BFAUI_SavedVars.Options.PixelPerfect = true
+
+                            --set system to true BEFORE setting to false (fixes bug)
+                            Advanced_UseUIScale:Click()
+                            Advanced_UseUIScale:SetChecked(true)
+                            VideoOptionsFrameApply:Click()
+
+                            --set system to false
+                            Advanced_UseUIScale:Click()
+                            Advanced_UseUIScale:SetChecked(false)
+                            VideoOptionsFrameApply:Click()
+
+                            --enable system button, hide text
+                            Advanced_UseUIScale:Disable()
+                            getglobal(Advanced_UseUIScale:GetName() .. "Text"):Show()
+                        else
+                            BFAUI_SavedVars.Options.PixelPerfect = false
+
+                            --make sure system is enabled so click will work
+                            Advanced_UseUIScale:Enable()
+
+                            --set system to false BEFORE setting to true (fixes bug)
+                            Advanced_UseUIScale:Click()
+                            Advanced_UseUIScale:SetChecked(false)
+                            VideoOptionsFrameApply:Click()
+
+                            --set system to true
+                            Advanced_UseUIScale:Click()
+                            Advanced_UseUIScale:SetChecked(true)
+                            VideoOptionsFrameApply:Click()
+
+                            --disable system button, show text
+                            Advanced_UseUIScale:Enable()
+                            getglobal(Advanced_UseUIScale:GetName() .. "Text"):Hide()
+                        end
+                        SetPixelPerfect()
+                        ]]
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Check this option to scale your UI to Pixel Perfect scaling." .. "\n" .. "This means your interface will look much more crisp." .. "\n" .. "Recommended for 1080p and lower resolutions.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentXPBarText" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentPixelPerfect" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-5" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelXPBarText:GetName() .. "Text"):SetText("Experience Bar Text |cff606060(requires reload)")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.XPBarText == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            SetCVar("xpBarText", true)
+                            BFAUI_SavedVars.Options.XPBarText = true
+                            StaticPopup_Show ("ReloadUI_Popup")
+                        else
+                            SetCVar("xpBarText", false)
+                            BFAUI_SavedVars.Options.XPBarText = false
+                            StaticPopup_Show ("ReloadUI_Popup")
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Always display the text on your XP bar.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentKeybindVisibilityPrimaryBar" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityTitle" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="7" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelKeybindVisibilityPrimaryBar:GetName() .. "Text"):SetText("Primary Bar")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.KeybindVisibility.PrimaryBar == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            a = 1
+                            BFAUI_SavedVars.Options.KeybindVisibility.PrimaryBar = true
+                        else
+                            a = 0
+                            BFAUI_SavedVars.Options.KeybindVisibility.PrimaryBar = false
+                        end
+                        for i = 1, 12 do
+                            _G["ActionButton" .. i .. "HotKey"]:SetAlpha(a)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Toggles the keybind text visibility on the primary bar.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentKeybindVisibilityBottomLeftBar" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityPrimaryBar" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-5" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelKeybindVisibilityBottomLeftBar:GetName() .. "Text"):SetText("Bottom Left Bar")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.KeybindVisibility.BottomLeftBar == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            a = 1
+                            BFAUI_SavedVars.Options.KeybindVisibility.BottomLeftBar = true
+                        else
+                            a = 0
+                            BFAUI_SavedVars.Options.KeybindVisibility.BottomLeftBar = false
+                        end
+                        for i = 1, 12 do
+                            _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:SetAlpha(a)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Toggles the keybind text visibility on the bottom left bar.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentKeybindVisibilityBottomRightBar" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityBottomLeftBar" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-5" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelKeybindVisibilityBottomRightBar:GetName() .. "Text"):SetText("Bottom Right Bar")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.KeybindVisibility.BottomRightBar == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            a = 1
+                            BFAUI_SavedVars.Options.KeybindVisibility.BottomRightBar = true
+                        else
+                            a = 0
+                            BFAUI_SavedVars.Options.KeybindVisibility.BottomRightBar = false
+                        end
+                        for i = 1, 12 do
+                            _G["MultiBarBottomRightButton" .. i .. "HotKey"]:SetAlpha(a)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Toggles the keybind text visibility on the bottom right bar.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentKeybindVisibilityRightBar" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityBottomRightBar" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-5" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelKeybindVisibilityRightBar:GetName() .. "Text"):SetText("Right Bar")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.KeybindVisibility.RightBar == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            a = 1
+                            BFAUI_SavedVars.Options.KeybindVisibility.RightBar = true
+                        else
+                            a = 0
+                            BFAUI_SavedVars.Options.KeybindVisibility.RightBar = false
+                        end
+                        for i = 1, 12 do
+                            _G["MultiBarRightButton" .. i .. "HotKey"]:SetAlpha(a)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Toggles the keybind text visibility on the right bar.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+            <!-- BREAKER -->
+            <CheckButton name="$parentKeybindVisibilityRightBar2" inherits="InterfaceOptionsCheckButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityRightBar" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension y="-5" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        getglobal(InnerPanelKeybindVisibilityRightBar2:GetName() .. "Text"):SetText("Right Bar 2")
+                    </OnLoad>
+                    <OnShow>
+                        if BFAUI_SavedVars.Options.KeybindVisibility.RightBar2 == true then
+                            self:SetChecked(true)
+                        end
+                    </OnShow>
+                    <OnClick>
+                        local IsChecked = self:GetChecked()
+                        if IsChecked == true then
+                            a = 1
+                            BFAUI_SavedVars.Options.KeybindVisibility.RightBar2 = true
+                        else
+                            a = 0
+                            BFAUI_SavedVars.Options.KeybindVisibility.RightBar2 = false
+                        end
+                        for i = 1, 12 do
+                            _G["MultiBarLeftButton" .. i .. "HotKey"]:SetAlpha(a)
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                        GameTooltip:SetText("Toggles the keybind text visibility on the right bar 2.")
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide"/>
+                </Scripts>
+            </CheckButton>
+             <!-- BREAKER -->
+            <Button name="$parentOpenInterface" inherits="UIPanelButtonTemplate" text="Open Blizzard ActionBar Settings">
+                <Size>
+                    <AbsDimension x="374" y="22"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        InterfaceOptionsFrame_Show()
+                        InterfaceOptionsFrameCategoriesButton5:Click()
+                        if InterfaceOptionsFrame:IsShown() then
+                            PlaySound(841) --IgCharacterInfoTab
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+</Ui>

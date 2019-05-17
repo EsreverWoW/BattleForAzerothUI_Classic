@@ -1,0 +1,11 @@
+## Interface: 70300
+## Title: Battle for Azeroth |cff69ccf0UI
+## Author: Sèbastían, of US Barthilas
+## Version: 1.06
+## Notes: A Battle for Azeroth inspired User Interface
+## SavedVariables: BFAUI_SavedVars
+
+core.lua
+artFrames.xml
+optionsFrame.xml
+optionsFramePanels.xml
