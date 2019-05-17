@@ -1,6 +1,9 @@
 ----------------------------------==≡≡[ NOTES ]≡≡==----------------------------------
 --[[
 CHANGES:
+	1.11 (EsreverWoW):
+		-Added free bag space data text on the backpack.
+		-Potential fix for XP bar visibility.
 	1.10 (EsreverWoW):
 		-Updated art assets to match those found in BfA today.
 		-Added an option and handling for hiding gryphons on the main action bar.

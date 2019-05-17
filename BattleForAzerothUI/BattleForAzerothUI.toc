@@ -1,6 +1,6 @@
 ## Interface: 11302
 ## Author: Sèbastían, Es (EsreverWoW)
-## Version: 1.10
+## Version: 1.11
 ## Title: Battle for Azeroth |cff69ccf0UI
 ## Notes: A Battle for Azeroth inspired User Interface
 ## SavedVariables: BFAUI_SavedVars
