@@ -1,7 +1,7 @@
 ## Interface: 11300
 ## Title: Battle for Azeroth |cff69ccf0UI
 ## Author: Sèbastían, of US Barthilas
-## Version: 1.08
+## Version: 1.09
 ## Notes: A Battle for Azeroth inspired User Interface
 ## SavedVariables: BFAUI_SavedVars
 

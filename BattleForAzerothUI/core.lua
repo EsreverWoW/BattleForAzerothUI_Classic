@@ -1,6 +1,8 @@
 ----------------------------------==≡≡[ NOTES ]≡≡==----------------------------------
 --[[
 CHANGES:
+	1.09 (EsreverWoW):
+		-Fixed an issue where the strata was too low for the XP bar.
 	1.08 (EsreverWoW):
 		-Changed the MicroMenuArt texture to have a shorter width since we didn't need three of the slots.
 		-Fixed the QuestLogMicroButton placement/sizing when playing on a character below level 10.
@@ -228,12 +230,10 @@ for i = 0, 3 do -- for loop, hides MainMenuXPBarTexture (0-3)
 	_G["MainMenuXPBarTexture" .. i]:Hide()
 end
 
-MainMenuExpBar:SetFrameStrata("LOW")
-ExhaustionTick:SetFrameStrata("MEDIUM")
+-- ExhaustionTick:SetFrameStrata("MEDIUM")
 
 MainMenuBarExpText:ClearAllPoints()
 MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, -1)
-MainMenuBarOverlayFrame:SetFrameStrata("MEDIUM") -- changes xp bar text strata
 
 ---------------==≡≡[ MICRO MENU MOVEMENT, POSITIONING AND SIZING ]≡≡==---------------
 
