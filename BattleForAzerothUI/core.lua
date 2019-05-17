@@ -242,12 +242,10 @@ for i = 0, 3 do -- for loop, hides MainMenuXPBarTexture (0-3)
 	_G["MainMenuXPBarTexture" .. i]:Hide()
 end
 
-MainMenuExpBar:SetFrameStrata("MEDIUM")
-ExhaustionTick:SetFrameStrata("HIGH")
+-- ExhaustionTick:SetFrameStrata("MEDIUM")
 
 MainMenuBarExpText:ClearAllPoints()
 MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, 0)
-MainMenuBarOverlayFrame:SetFrameStrata("HIGH") -- changes xp bar text strata
 
 ---------------==≡≡[ MICRO MENU MOVEMENT, POSITIONING AND SIZING ]≡≡==---------------
 
@@ -366,6 +364,11 @@ local function ActivateLongBar()
 		ActionBarDownButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -42)
 		MainMenuBarPageNumber:SetPoint("CENTER", MainMenuBarArtFrame, 28, -5)
 
+		-- exp bar sizing and positioning
+		MainMenuExpBar:SetSize(798, 10)
+		MainMenuExpBar:ClearAllPoints()
+		MainMenuExpBar:SetPoint("BOTTOM", UIParent, 0, 0)
+
 		-- reposition ALL actionbars (right bars not affected)
 		MainMenuBar:SetPoint("BOTTOM", UIParent, 110, 11)
 
@@ -377,13 +380,6 @@ local function ActivateLongBar()
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
 		end
 	end
-
-	-- exp bar sizing and positioning
-	MainMenuExpBar:HookScript("OnEvent", function(self)
-		self:SetSize(798, 10)
-		self:ClearAllPoints()
-		self:SetPoint("BOTTOM", UIParent, 0, 0)
-	end)
 end
 
 local function ActivateShortBar()
@@ -406,6 +402,11 @@ local function ActivateShortBar()
 		ActionBarDownButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -42)
 		MainMenuBarPageNumber:SetPoint("CENTER", MainMenuBarArtFrame, 29, -5)
 
+		-- exp bar sizing and positioning
+		MainMenuExpBar:SetSize(542, 10)
+		MainMenuExpBar:ClearAllPoints()
+		MainMenuExpBar:SetPoint("BOTTOM", UIParent, 0, 0)
+
 		-- reposition ALL actionbars (right bars not affected)
 		MainMenuBar:SetPoint("BOTTOM", UIParent, 237, 11)
 
@@ -417,13 +418,6 @@ local function ActivateShortBar()
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
 		end
 	end
-
-	-- exp bar sizing and positioning
-	MainMenuExpBar:HookScript("OnEvent", function(self)
-		self:SetSize(542, 10)
-		self:ClearAllPoints()
-		self:SetPoint("BOTTOM", UIParent, 0, 0)
-	end)
 end
 
 local function Update_ActionBars()
@@ -456,9 +450,7 @@ MultiBarLeft:HookScript("OnShow", Update_ActionBars)
 MultiBarLeft:HookScript("OnHide", Update_ActionBars)
 
 local f = CreateFrame("Frame")
-f:RegisterEvent("PLAYER_LOGIN")			-- Required to check bar visibility on load
-f:RegisterEvent("PLAYER_LEVEL_CHANGED")	-- Prevents XP bar from disappearing on level
-f:RegisterEvent("PLAYER_LEVEL_UP")		-- Prevents XP bar from disappearing on level
+f:RegisterEvent("PLAYER_LOGIN") -- Required to check bar visibility on load
 f:SetScript("OnEvent", Update_ActionBars)
 
 local function PlayerEnteredCombat()
