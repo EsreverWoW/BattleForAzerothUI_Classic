@@ -1,6 +1,9 @@
 ----------------------------------==≡≡[ NOTES ]≡≡==----------------------------------
 --[[
 CHANGES:
+	1.10 (EsreverWoW):
+		-Updated art assets to match those found in BfA today.
+		-Added an option and handling for hiding gryphons on the main action bar.
 	1.09 (EsreverWoW):
 		-Fixed an issue where the strata was too low for the XP bar.
 	1.08 (EsreverWoW):
@@ -34,9 +37,6 @@ CHANGES:
 	1.01:
 		-Fixed 98-109 issue where the artifact bar would appear on UPDATE_EXHAUSTION event
 
-LATER IDEAS/TODO LIST:
--- Option to remove gryphons, maybe even make their strata higher than actionbuttons?
-
 PERSONAL NOTES:
 		C_Timer.After(3, function() -- 3 second delay
 			-- do something
@@ -57,6 +57,7 @@ local function EnteringWorld()
 		BFAUI_SavedVars["Options"] = {
 			["PixelPerfect"] = false,
 			["XPBarText"] = tf,
+			["HideGryphons"] = false,
 			["KeybindVisibility"] = {
 				["PrimaryBar"] = true,
 				["BottomLeftBar"] = true,
@@ -140,6 +141,17 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:SetScript("OnEvent", PixelPerfect)
+
+local function HideGryphons()
+	if BFAUI_SavedVars.Options.HideGryphons == true then
+		MainMenuBarLeftEndCap:Hide()
+		MainMenuBarRightEndCap:Hide()
+	end
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:SetScript("OnEvent", HideGryphons)
 
 -- reference :http://wowwiki.wikia.com/wiki/Creating_simple_pop-up_dialog_boxes
 StaticPopupDialogs.WELCOME_POPUP = {
@@ -233,7 +245,7 @@ end
 -- ExhaustionTick:SetFrameStrata("MEDIUM")
 
 MainMenuBarExpText:ClearAllPoints()
-MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, -1)
+MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, 0)
 
 ---------------==≡≡[ MICRO MENU MOVEMENT, POSITIONING AND SIZING ]≡≡==---------------
 
@@ -244,24 +256,18 @@ local function MoveMicroButtonsToBottomRight()
 
 	-- MicroMenu Buttons
 	for i = 1, #MICRO_BUTTONS do
-		local button, previousButton, flash = _G[MICRO_BUTTONS[i]], _G[MICRO_BUTTONS[i-1]], _G[MICRO_BUTTONS[i] .. "Flash"]
+		local button, previousButton = _G[MICRO_BUTTONS[i]], _G[MICRO_BUTTONS[i-1]]
 
 		button:ClearAllPoints()
-		button:SetSize(24, 44) -- Originally w=28, h=58
+		-- button:SetSize(28, 58)
 
 		if i == 1 then
-			button:SetPoint("BOTTOMRIGHT", UIParent, -173, 4)
-
-			MicroButtonPortrait:SetPoint("TOP", CharacterMicroButton, 0, -20)
-			MicroButtonPortrait:SetSize(16, 20)
+			button:SetPoint("BOTTOMRIGHT", UIParent, -200, 4)
 		elseif i == 4 and UnitLevel("player") < SHOW_SPEC_LEVEL then
 			button:SetPoint("BOTTOMLEFT", previousButton, "BOTTOMRIGHT", 0, 0)
 		else
-			button:SetPoint("BOTTOMRIGHT", previousButton, 24, 0)
+			button:SetPoint("BOTTOMRIGHT", previousButton, 28, 0)
 		end
-
-		flash:SetSize(51, 47)
-		flash:SetPoint("TOPLEFT", button, -1, -14)
 	end
 
 	-- Latency Bar
@@ -277,9 +283,18 @@ local function MoveMicroButtonsToBottomRight()
 	MainMenuBarPerformanceBarFrameButton:SetPoint("TOPRIGHT", MainMenuBarPerformanceBar, MainMenuBarPerformanceBar:GetWidth() / 2, -28)
 
 	-- Bags
-	MainMenuBarBackpackButton:SetScale(0.7625)
+	MainMenuBarBackpackButton:SetScale(1)
 	for i = 0, 3 do
-		_G["CharacterBag" .. i .. "Slot"]:SetScale(0.7625)
+		local bagFrame, previousBag = _G["CharacterBag" .. i .. "Slot"], _G["CharacterBag" .. i-1 .. "Slot"]
+
+		bagFrame:SetScale(0.75)
+		bagFrame:ClearAllPoints()
+
+		if i == 0 then
+			bagFrame:SetPoint("BOTTOMRIGHT", MainMenuBarBackpackButton, "BOTTOMLEFT", -9, 1)
+		else
+			bagFrame:SetPoint("BOTTOMRIGHT", previousBag, "BOTTOMLEFT", -6, 0)
+		end
 	end
 end
 
@@ -312,7 +327,7 @@ local function Initial_ActionBarPositioning()
 		-- MultiBarLeftButton1:SetPoint("TOPRIGHT", MultiBarLeft, 41, 11)
 
 		-- reposition bags
-		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -7, 53)
+		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, -7, 47)
 
 		-- reposition pet actionbuttons
 		SlidingActionBarTexture0:SetPoint("TOPLEFT", PetActionBarFrame, 1, -5) -- pet bar texture (displayed when bottom left bar is hidden)
@@ -332,6 +347,17 @@ f:SetScript("OnEvent", Initial_ActionBarPositioning)
 local function ActivateLongBar()
 	ActionBarArt:Show()
 	ActionBarArtSmall:Hide()
+
+	if not BFAUI_SavedVars.Options.HideGryphons or (MainMenuBarLeftEndCap:IsShown() or MainMenuBarRightEndCap:IsShown()) then
+		MainMenuBarLeftEndCap:ClearAllPoints()
+		MainMenuBarLeftEndCap:SetPoint("LEFT", ActionBarArt, "LEFT", 12, 0)
+		MainMenuBarRightEndCap:ClearAllPoints()
+		MainMenuBarRightEndCap:SetPoint("RIGHT", ActionBarArt, "RIGHT", -12, 0)
+	else
+		MainMenuBarLeftEndCap:Hide()
+		MainMenuBarRightEndCap:Hide()
+	end
+
 	if not InCombatLockdown() then
 		-- arrows and page number
 		ActionBarUpButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -23)
@@ -359,6 +385,17 @@ end
 local function ActivateShortBar()
 	ActionBarArt:Hide()
 	ActionBarArtSmall:Show()
+
+	if not BFAUI_SavedVars.Options.HideGryphons or (MainMenuBarLeftEndCap:IsShown() or MainMenuBarRightEndCap:IsShown()) then
+		MainMenuBarLeftEndCap:ClearAllPoints()
+		MainMenuBarLeftEndCap:SetPoint("LEFT", ActionBarArt, "LEFT", 12, 0)
+		MainMenuBarRightEndCap:ClearAllPoints()
+		MainMenuBarRightEndCap:SetPoint("RIGHT", ActionBarArt, "RIGHT", -264, 0)
+	else
+		MainMenuBarLeftEndCap:Hide()
+		MainMenuBarRightEndCap:Hide()
+	end
+
 	if not InCombatLockdown() then
 		-- arrows and page number
 		ActionBarUpButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -23)
@@ -393,27 +430,6 @@ local function Update_ActionBars()
 			PetActionButton1:SetPoint("TOP", PetActionBarFrame, "LEFT", 51, 7)
 			StanceButton1:SetPoint("LEFT", StanceBarFrame, 12, -2)
 		end
-
-		-- Right Bar:
-		if MultiBarRight:IsShown() then
-			-- do
-		else
-		end
-
-		-- Right Bar 2:
-		--[[
-		if MultiBarLeft:IsShown() then
-			-- make MultiBarRight smaller (original size)
-			MultiBarLeft:SetScale(0.795)
-			MultiBarRight:SetScale(0.795)
-			MultiBarRightButton1:SetPoint("TOPRIGHT", MultiBarRight, -2, 534)
-		else
-			-- make MultiBarRight bigger and vertically more centered, maybe also move objective frame
-			MultiBarLeft:SetScale(1)
-			MultiBarRight:SetScale(1)
-			MultiBarRightButton1:SetPoint("TOPRIGHT", MultiBarRight, -2, 64)
-		end
-		--]]
 	end
 
 	-- Bottom Right Bar: (needs to be run in or out of combat, this is for the art when exiting vehicles in combat)
@@ -465,10 +481,6 @@ f:RegisterEvent("PLAYER_REGEN_ENABLED")
 f:SetScript("OnEvent", PlayerLeftCombat)
 
 ----------------------------==≡≡[ BLIZZARD TEXTURES ]≡≡==----------------------------
-
--- hide Blizzard art textures
-MainMenuBarLeftEndCap:Hide()
-MainMenuBarRightEndCap:Hide()
 
 for i = 0, 3 do -- for loop, hides MainMenuBarTexture (0-3)
 	_G["MainMenuBarTexture" .. i]:Hide()

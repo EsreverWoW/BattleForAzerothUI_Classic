@@ -47,7 +47,7 @@
 		<Size x="512" y="128" />
 		<Anchors>
 			<Anchor point="BOTTOM">
-				<Offset x="-71" y="-4" />
+				<Offset x="-42" y="-4" />
 			</Anchor>
 		</Anchors>
 		<Layers>

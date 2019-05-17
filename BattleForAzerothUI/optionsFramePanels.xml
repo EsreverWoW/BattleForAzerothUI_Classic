@@ -38,7 +38,7 @@
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentSubText">
 							<Offset>
-								<AbsDimension y="-80" />
+								<AbsDimension y="-106" />
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -53,7 +53,7 @@
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentKeybindVisibilityTitle">
 							<Offset>
-								<AbsDimension y="-172" />
+								<AbsDimension y="-142" />
 							</Offset>
 						</Anchor>
 						<Anchor point="BOTTOMRIGHT">
@@ -71,7 +71,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentSubText" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-1" />
+							<AbsDimension y="0" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -145,7 +145,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentPixelPerfect" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-5" />
+							<AbsDimension y="-3" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -163,12 +163,11 @@
 						if IsChecked == true then
 							SetCVar("xpBarText", true)
 							BFAUI_SavedVars.Options.XPBarText = true
-							StaticPopup_Show("ReloadUI_Popup")
 						else
 							SetCVar("xpBarText", false)
 							BFAUI_SavedVars.Options.XPBarText = false
-							StaticPopup_Show("ReloadUI_Popup")
 						end
+						StaticPopup_Show("ReloadUI_Popup")
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -178,11 +177,48 @@
 				</Scripts>
 			</CheckButton>
 			<!-- BREAKER -->
+			<CheckButton name="$parentHideGryphons" inherits="InterfaceOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentXPBarText" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension y="-3" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(InnerPanelHideGryphons:GetName() .. "Text"):SetText("Hide Gryphons")
+					</OnLoad>
+					<OnShow>
+						if BFAUI_SavedVars.Options.HideGryphons == true then
+							self:SetChecked(true)
+						end
+					</OnShow>
+					<OnClick>
+						local IsChecked = self:GetChecked()
+						if IsChecked == true then
+							BFAUI_SavedVars.Options.HideGryphons = true
+							MainMenuBarLeftEndCap:Hide()
+							MainMenuBarRightEndCap:Hide()
+						else
+							BFAUI_SavedVars.Options.HideGryphons = false
+							MainMenuBarLeftEndCap:Show()
+							MainMenuBarRightEndCap:Show()
+						end
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+						GameTooltip:SetText("Hide gryphons from displaying beside the main action bar.")
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+				</Scripts>
+			</CheckButton>
+			<!-- BREAKER -->
 			<CheckButton name="$parentKeybindVisibilityPrimaryBar" inherits="InterfaceOptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityTitle" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="7" />
+							<AbsDimension y="10" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -220,7 +256,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityPrimaryBar" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-5" />
+							<AbsDimension y="-3" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -258,7 +294,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityBottomLeftBar" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-5" />
+							<AbsDimension y="-3" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -296,7 +332,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityBottomRightBar" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-5" />
+							<AbsDimension y="-3" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -334,7 +370,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentKeybindVisibilityRightBar" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension y="-5" />
+							<AbsDimension y="-3" />
 						</Offset>
 					</Anchor>
 				</Anchors>
