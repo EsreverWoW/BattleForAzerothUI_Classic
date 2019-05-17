@@ -381,9 +381,11 @@ local function ActivateLongBar()
 		XPBarBackground:SetSize(798, 10)
 		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -111, -10)
 
+		--[[[
 		if ExhaustionTick:IsShown() then
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
 		end
+		--]]
 	end
 end
 
@@ -419,9 +421,11 @@ local function ActivateShortBar()
 		XPBarBackground:SetSize(542, 10)
 		XPBarBackground:SetPoint("BOTTOM", MainMenuBar, -237, -10)
 
+		--[[
 		if ExhaustionTick:IsShown() then
 			ExhaustionTick_OnEvent(ExhaustionTick, "UPDATE_EXHAUSTION") -- Blizzard function, updates exhaustion tick position on XP bar resize
 		end
+		--]]
 	end
 end
 
@@ -459,6 +463,7 @@ MultiBarLeft:HookScript("OnHide", Update_ActionBars)
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN") -- Required to check bar visibility on load
+f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", Update_ActionBars)
 
 local function PlayerEnteredCombat()
